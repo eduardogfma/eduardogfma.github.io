@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Video & Filters Test</title>
+  <meta charset="utf-8">
+
+  <style>
+      video {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -1;
+        transform: translateX(-50%) translateY(-50%);
+        filter: blur(2px) hue-rotate(160deg) brightness(100%) contrast(75%) saturate(1);
+      }
+
+      .custom{
+        filter: blur(2px) hue-rotate(160deg) brightness(100%) contrast(75%) saturate(1);
+      }
+
+      .blur {
+        -webkit-filter: blur(3px);
+        -moz-filter: blur(3px);
+        -o-filter: blur(3px);
+        -ms-filter: blur(3px);
+        filter: blur(3px);
+      }
+      .brightness {
+        -webkit-filter: brightness(5);
+        -moz-filter: brightness(5);
+        -o-filter: brightness(5);
+        -ms-filter: brightness(5);
+        filter: brightness(5);
+      }
+      .contrast {
+        -webkit-filter: contrast(8);
+        -moz-filter: contrast(8);
+        -o-filter: contrast(8);
+        -ms-filter: contrast(8);
+        filter: contrast(8);
+      }
+      .hue-rotate {
+        -webkit-filter: hue-rotate(90deg);
+        -moz-filter: hue-rotate(90deg);
+        -o-filter: hue-rotate(90deg);
+        -ms-filter: hue-rotate(90deg);
+        filter: hue-rotate(90deg);
+      }
+      .hue-rotate2 {
+        -webkit-filter: hue-rotate(180deg);
+        -moz-filter: hue-rotate(180deg);
+        -o-filter: hue-rotate(180deg);
+        -ms-filter: hue-rotate(180deg);
+        filter: hue-rotate(180deg);
+      }
+      .hue-rotate3 {
+        -webkit-filter: hue-rotate(270deg);
+        -moz-filter: hue-rotate(270deg);
+        -o-filter: hue-rotate(270deg);
+        -ms-filter: hue-rotate(270deg);
+        filter: hue-rotate(270deg);
+      }
+      .saturate {
+        -webkit-filter: saturate(10);
+        -moz-filter: saturate(10);
+        -o-filter: saturate(10);
+        -ms-filter: saturate(10);
+        filter: saturate(10);
+      }
+      .grayscale {
+        -webkit-filter: grayscale(1);
+        -moz-filter: grayscale(1);
+        -o-filter: grayscale(1);
+        -ms-filter: grayscale(1);
+        filter: grayscale(1);
+      }
+      .sepia {
+        -webkit-filter: sepia(1);
+        -moz-filter: sepia(1);
+        -o-filter: sepia(1);
+        -ms-filter: sepia(1);
+        filter: sepia(1);
+      }
+      .invert {
+        -webkit-filter: invert(1);
+        -moz-filter: invert(1)
+        -o-filter: invert(1)
+        -ms-filter: invert(1)
+        filter: invert(1)
+      }
+</style>
+
+</head>
+<body>
+
+    <audio id="Fan" autoplay loop>
+      <source src="HummingFan.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="VHS" autoplay loop>
+      <source src="VHS.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="Clock" autoplay loop>
+      <source src="ClockTicking.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="Aquatic" autoplay loop>
+      <source src="AquaticSound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="Park" autoplay loop>
+      <source src="Park.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- //////// VIDEO ////////// -->
+    <!--<video id="vhsVid" style="VHSStyle" width="320" height="240" autoplay loop playsinline>
+       <source src="VHSGlitch.mp4" type="video/mp4" />
+       Your browser does not support the <video> element.
+    </video> -->
+
+    <video id="vid" width="320" height="240" autoplay playsinline>
+       <!--<source src="DragonBallOpening.mp4" type="video/mp4" />-->
+       Your browser does not support the <video> element.
+    </video>
+
+    <!--
+    <p>Example of custom controls:</p>
+    <button onclick="playVideo();" style="cursor: pointer;">Play</button>
+
+    <button onclick="pauseVideo();" style="cursor: pointer;">Pause</button>
+
+    <button onclick="rewindVideo();" style="cursor: pointer;">Back to beginning</button>
+    -->
+
+    <script>
+        var vid = document.querySelector("#vid");
+        var idx = 0;
+        var filters = [
+          'grayscale',
+          'sepia',
+          'blur',
+          'brightness',
+          'contrast',
+          'hue-rotate',
+          'hue-rotate2',
+          'hue-rotate3',
+          'saturate',
+          'invert',
+          'custom'
+        ];
+
+        var videos = [
+          "DragonBallOpening.mp4",
+          "SailorMoonOpening.mp4",
+          "SaintSeiyaOpening.mp4",
+          "RurouniKenshinOpening.mp4",
+          "KaiketsuZorroOpening.mp4"
+        ]
+
+        var prevVid = -1;
+        var rate = 0.7;
+        var vol = 0.07;
+
+        vid.playbackRate = rate;
+        vid.volume = vol;
+
+        function changeFilter(e) {
+        var el = e.target;
+        var effect = filters[idx++ % filters.length];
+        if (effect) {
+        el.className = effect;
+        }
+        // Do not propagate the event
+        event.stopPropagation();
+        event.preventDefault();
+      }
+
+      function changeVideo(){
+          var i = Math.floor(Math.random()*videos.length);
+          if (i !== prevVid) {
+            document.querySelector("#vid").src = videos[i];
+          }else{
+            var i = Math.floor(Math.random()*videos.length);
+            document.querySelector("#vid").src = videos[i];
+          }
+
+        vid.playbackRate = rate;
+        vid.volume=vol;
+        prevVid = i;
+      }
+
+      // Events
+        window.addEventListener('load', changeVideo, false);
+        vid.addEventListener('click', changeFilter, false);
+        vid.addEventListener('ended', changeVideo, false);
+    </script>
+
+</body>
+</html>
